@@ -83,7 +83,7 @@ Antes de começar, certifique-se de ter os seguintes requisitos instalados:
 
 ## Configuração
 
-Para personalizar o template para o seu projeto, você pode modificar os seguintes arquivos:
+Para personalizar o template para o seu projeto, você pode modificar os seguintes arquivos ou criar novos:
 
 - `app/`: Aplicação principal do projeto.
 - `core/`: Módulo principal do projeto.
