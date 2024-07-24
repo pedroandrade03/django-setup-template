@@ -1,4 +1,4 @@
-# Django Project Template
+# Django Setup Template
 
 Este é um template básico para projetos Django, contendo uma configuração inicial que eu considero a melhor prática. Ele inclui todas as bibliotecas e configurações que frequentemente utilizo em meus projetos.
 
