@@ -1,5 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import (
+    BaseUserManager,
+    AbstractBaseUser,
+    PermissionsMixin,
+)
+from core.models import BaseModel
 
 
 class MyUserManager(BaseUserManager):
@@ -30,12 +35,16 @@ class MyUserManager(BaseUserManager):
             password=password,
             date_of_birth=date_of_birth,
         )
-        user.is_admin = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
 
 
-class MyUser(AbstractBaseUser):
+class MyUser(AbstractBaseUser, PermissionsMixin, BaseModel):
+    """
+    Custom user model with email as the unique identifier
+    """
+
     email = models.EmailField(
         verbose_name="email address",
         max_length=255,
@@ -43,7 +52,7 @@ class MyUser(AbstractBaseUser):
     )
     date_of_birth = models.DateField()
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     objects = MyUserManager()
 
@@ -53,18 +62,9 @@ class MyUser(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
-        return True
-
     @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
-        return self.is_admin
+    def is_superuser(self):
+        """
+        Is the user a superuser?
+        """
+        return self.is_staff
